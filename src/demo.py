@@ -8,7 +8,7 @@ from onrobot import RG
 
 def run_demo():
     """Runs gripper open-close demonstration once."""
-    rg = RG(gripper, toolchanger_ip, toolchanger_port)
+    rg = RG(gripper, ip=toolchanger_ip, port=toolchanger_port, device=toolchanger_device)
 
     if not rg.get_status()[0]:  # not busy
         print("Current hand opening width: " +
@@ -42,11 +42,14 @@ def get_options():
         default="rg6", choices=['rg2', 'rg6'],
         help='set gripper type, rg2 or rg6')
     parser.add_argument(
-        '--ip', dest='ip', type=str, default="192.168.1.1",
-        help='set ip address')
+        '--ip', dest='ip', type=str, default=None,
+        help='set IP address')
     parser.add_argument(
         '--port', dest='port', type=str, default="502",
         help='set port number')
+    parser.add_argument(
+        '--device', dest='device', type=str, default=None,
+        help='set device path')
     return parser.parse_args()
 
 
@@ -55,4 +58,5 @@ if __name__ == '__main__':
     gripper = args.gripper
     toolchanger_ip = args.ip
     toolchanger_port = args.port
+    toolchanger_device = args.device
     run_demo()
